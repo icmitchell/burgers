@@ -8,8 +8,9 @@
 			{{#each burgers}}
 			{{#unless this.devoured}}
 			<div>
-				<form action ="/burgers/{{this.id}}?_method="PUT" method"POST">
-					<button type="submit" class="eatableBurgers"> {{this.burger_name}}</button>
+				<form>
+					{{this.burger_name}}
+					<button type="submit" data-id="{{this.id}}" class="eatableBurgers">Devour It!</button>
 				</form>
 			</div>
 			{{/unless}}
@@ -17,7 +18,7 @@
 		</div>
 
 		<div class="col-sm-6">
-			{{#each burgers}}
+			{{#each burgers}} 
 			{{#if this.devoured}}
 			<div class='burgerAte'>
 				<div>
@@ -34,9 +35,38 @@
 <h2>Fix up a New Burger</h2>
 <div class = "row">
 	<div class = "col-sm-12">
-		<form action="/burgers" method="POST">
-			<input type="text" id="burg" name="burger_name" placeholder="What Burger Shall We Devour First?">
+		<form>
+			<input type="text" id="burg" placeholder="What Burger Shall We Devour First?">
 			<button type="submit" class="burgerAdd"> Add Burger</button>
 		</form>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(".eatableBurgers").on("click", function(){
+		var id = $(this).data("id");
+
+		$.ajax(/burgers/+id, {
+			type: "PUT"
+		}).then(
+		function(){
+			console.log("updated");
+			location.reload();
+		});
+	});
+
+	$(".burgerAdd").on("click", function(){
+		event.preventDefault();
+		var name = $("#burg").val().trim();
+
+		$.ajax("/burgers", {
+			type: "POST",
+			data: {
+				burger_name: name
+			}
+		}).then(function() {
+			console.log("new burger created");
+			location.reload();
+		})
+	})
+</script>

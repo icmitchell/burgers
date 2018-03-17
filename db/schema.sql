@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS burgers_db;
 CREATE DATABASE burgers_db;
 
 USE burgers_db;
@@ -8,3 +9,7 @@ CREATE TABLE burgers (
   devoured BOOLEAN NOT NULL,
   PRIMARY KEY (id)
 );
+
+INSERT INTO burgers (burger_name, devoured) VALUES ('Double Bacon Cheesebuger', FALSE);
+INSERT INTO burgers (burger_name, devoured) VALUES ('Royale with cheese', FALSE);
+INSERT INTO burgers (burger_name, devoured) VALUES ('Burger?', FALSE);
